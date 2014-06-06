@@ -17,15 +17,15 @@ class GpibInst(visa.GpibInstrument):
 		visa.GpibInstrument.__init__(self, self.__GPIB_ADDRESS__, timeout=30)
 	
 
-    # pass in an array of vectors (x-value, then y-value)
+	# pass in an array of vectors (x-value, then y-value)
 	def init_pulse(self):
 		self.write("*CLS") # clears registers
 		self.write("*SRE 16") # enables "message available bit"
 
-		self.write("AMPL %i" % self.__AMP__)
-		self.write("OFFS %i" % self.__OFFSET__)
+		self.write("AMPL " + str(self.__AMP__) + "VP") # sets amplitude
+		self.write("OFFS %f" % self.__AMP__) # sets offset
 
-		data = self.__DATA__
+		data = self.__DATA__ # sets data to default
 
 		self.write("LDWF? 1,%i" % (len(data) / 2)) # tells machine that 'len(data) / 2' vector vertices will be sent
 
@@ -40,9 +40,9 @@ class GpibInst(visa.GpibInstrument):
 		for count in range(1, len(data)):
 			sum += data[count]
 			input += pack('h', data[count])
-        # adds packed checksum to end of data string
+		# adds packed checksum to end of data string
 		input += pack('h', sum)
-        # loads data string to machine
+		# loads data string to machine
 		self.write(input)
 
 		self.write("FUNC5\n") # sets to arbitrary waveform to produce output
