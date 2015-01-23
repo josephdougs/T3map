@@ -6,10 +6,10 @@ from struct import pack
 import time
 
 ADDRESS = "GPIB0::19::INSTR"
-__AMP__ = 0.2
-__OFFSET__ = __AMP__
+__AMP__ = 0.1
+__OFFSET__ = 0.2
 __BURST_COUNT__ = 255
-__DATA__ = [0, 0, 100, 0, 101, -2047, 200, 0]
+__DATA__ = [0, 0, 100, 0, 101, -2047, 4101, 0]
 
 
 def run():
